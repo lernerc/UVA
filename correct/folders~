@@ -1,0 +1,16 @@
+#clear
+for i in *
+    do
+    end=".cc"
+    case $i in
+    *.cc )
+	echo "mkdir temp"
+	echo "mv $i temp/"
+	name=substr $i 0 length $i -3
+	star="*"
+	echo "mv  $name$star temp/"
+	echo "mv temp $name"
+    ;;
+    esac
+done
+ls

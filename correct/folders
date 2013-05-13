@@ -1,0 +1,15 @@
+#clear
+for i in *
+    do
+    end=".cc"
+    case $i in
+    *.cc )
+	mkdir temp
+	name=${i%.cc}
+	star="*"
+	mv  $name$star temp/
+	mv temp $name
+    ;;
+    esac
+done
+ls
