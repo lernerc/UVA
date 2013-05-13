@@ -1,0 +1,36 @@
+#include <iostream>
+#include <queue>
+using namespace std;
+
+int main() {
+
+   int cases;
+   cin >> cases;
+   for(int i = 0; i < cases; i++) {
+      priority_queue<int, vector<int>, greater<int> > list;
+      int q, k;
+      cin >> q >> k;
+      string blankline;
+      int total;
+      getline(cin, blankline);
+      for(int j = 0; j < q; j++) {
+	 string line;
+	 getline(cin, line);
+	 istringstream iss(line);
+	 string op = 0;
+	 iss >> line;
+	 if(line == "insert") {
+	    int number;
+	    cin >> number;
+	    if(list.size() == 0) {
+	       op = number;
+	       list.push(number);
+	    }
+	       
+	 } else {
+	    cout << op << endl;
+	 }
+      }
+   }
+   return 0;   
+}
