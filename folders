@@ -1,4 +1,4 @@
-#clear
+# finds all the *.cc files and creates a folder of that name and then moves all files that start with the * into the folder with the name *
 for i in *
     do
     end=".cc"
