@@ -1,0 +1,24 @@
+# finds all the executable files and removes them
+for i in *
+  do
+   case $i in
+     *.cc )
+       name=${i%.cc}
+       echo "git rm $name"
+     ;;
+     */ )
+       cd i
+       for f in *
+         echo "file: $f"
+         do
+          case $f in
+	   *.cc )
+	     exe=${f%.cc}
+	     echo "git rm $exe"
+	   ;;
+    	 esac
+       done
+	cd ../
+     ;;
+   esac
+done

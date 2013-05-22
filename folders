@@ -7,8 +7,8 @@ for i in *
 	mkdir temp
 	name=${i%.cc}
 	star="*"
-	mv  $name$star temp/
-	mv temp $name
+	git mv  $name$star temp/
+	git mv temp $name
     ;;
     esac
 done

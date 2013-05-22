@@ -1,0 +1,49 @@
+### finds all the executable files in first three levels of folders and removes the executable files
+for q in *
+do
+  if [ -d $q ]
+  then
+    cd $q
+    for f in *
+    do
+      if [ -d $f ]
+      then
+        cd $f
+	for i in *
+	do
+   	  case $i in
+      	    *.cc )
+       	    exe=${i%.cc}
+	    if [ -f $exe ]
+	    then
+       	      git rm $exe
+     	    fi
+	    ;;
+  	esac
+	done
+	cd ../
+      else
+        case $f in
+          *.cc )
+	     exe=${f%.cc}
+	     if [ -f exe ]
+	     then
+	       git rm $exe
+	     fi
+	  ;;
+        esac
+      fi
+    done
+    cd ../
+  else
+    case $q in
+      *.cc )
+        exe=${q%.cc}
+	if [ -f exe ]
+	then
+	  git rm $exe
+	fi	
+      ;;
+    esac
+  fi
+done
