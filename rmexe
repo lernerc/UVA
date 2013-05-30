@@ -1,4 +1,4 @@
-### finds all the executable files in first three levels of folders and removes the executable files
+### finds all the executable files in first three levels of folders and removes the executable files that correspond to *.cc files
 for q in *
 do
   if [ -d $q ]
