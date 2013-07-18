@@ -89,9 +89,7 @@ int main(void)
       cin >> n >> m;
       /* clear graph */
       for (int i = 0; i <= n; i++) {
-	 for (int j = 0; j <= n; j++) {
-	    dist[i][j] = INT_MIN;
-	 }
+	 fill(dist[i], dist[i] + n, INT_MIN);
       }
       
 
@@ -102,7 +100,7 @@ int main(void)
 	 double w;
 	 cin >> i >> j >> w;
 //	 assert(0 <= i && i < n && 0 <= j && j < n);
-	 if((dist[i][j] == INT_MIN) || (dist[i][j] > (int)(w*100 + 0.5))) {
+	 if((dist[i][j] == INT_MIN) || (dist[i][j] > (int)(w*100.0 + 0.5))) {
 	    dist[i][j] = dist[j][i] = (int)(w*100 + 0.5);
 	 }
       }
