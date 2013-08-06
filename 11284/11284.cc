@@ -47,14 +47,14 @@ int recur(int set, int end, const int& p) {
 	 int j = (1 << v);
 	 int n_set = set - (1 << end);
 	 if((n_set & j) && dist[opera[v].first][opera[end].first] != INT_MIN) {
-	    data[set][end] = opera[end].second
+	    high = opera[end].second
 	       - dist[opera[v].first][opera[end].first] + recur(n_set, v, p);
-	    if(data[set][end] > high) {
-	       high = data[set][end];
+	    if(data[set][end] < high || data[set][end] == INT_MIN) {
+	       data[set][end] = high;
 	    }
 	 }
       }
-      return high;
+      return data[set][end];
    }
 }
 
@@ -65,7 +65,7 @@ int subsets(const int& n, const int& m, const int& p) {
    }
    int max = INT_MIN;
    for(int i = 1; i < (1 << p); ++i) {
-      for(int v = 0; v < OPERAS; ++v) {
+      for(int v = 0; v < p; ++v) { 
 	 int j = (1 << v);
 	 if((j & i) && opera[v].first != INT_MIN) {
 	    int temp = recur(i, v, p) - dist[opera[v].first][0];
@@ -88,24 +88,21 @@ int main(void)
       int n, m;     
       cin >> n >> m;
       /* clear graph */
-      for (int i = 0; i <= n; i++) {
-	 fill(dist[i], dist[i] + n, INT_MIN);
+      for (int i = 0; i < n + 1; i++) {
+	 fill(dist[i], dist[i] + n + 1, INT_MIN);
       }
       
-
       /* read graph */
-      
       for(int q = 0; q < m; ++q) {
 	 int i, j;
 	 double w;
 	 cin >> i >> j >> w;
 //	 assert(0 <= i && i < n && 0 <= j && j < n);
 	 if((dist[i][j] == INT_MIN) || (dist[i][j] > (int)(w*100.0 + 0.5))) {
-	    dist[i][j] = dist[j][i] = (int)(w*100 + 0.5);
+	    dist[i][j] = dist[j][i] = (int)(w*100.0 + 0.5);
 	 }
       }
-      
-      
+            
       floyd(n + 1);
 
       int p;
@@ -115,7 +112,7 @@ int main(void)
       int place;
       for(int i = 0; i < p; ++i) {
 	 cin >> place >> price;
-	 opera[i] = make_pair(place, (int)(price*100 + 0.5));
+	 opera[i] = make_pair(place, (int)(price*100.0 + 0.5));
       }
 
       // finds the route that save the most money
