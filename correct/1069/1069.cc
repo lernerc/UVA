@@ -19,12 +19,9 @@ int parseNum(const string &line, int &i) {
 	 i++;
       break;
    }
-   while( i < (int)line.size() && (isdigit(line[i]) || line[i] == ' ')) {
-      if(isdigit(line[i])) {
-	 num *= 10;
-	 num += line[i] - '0';
-      }
-      i++;
+   for(; i < (int)line.size() && (isdigit(line[i])); i++) {
+      num *= 10;
+      num += line[i] - '0';
       isNum = true;
    }
    if(!isNum)
@@ -38,34 +35,39 @@ int parsing(const string &line, int &degree) {
    int constant = 0;
    bool isNum = false;
    while(i < (int)line.size() && line[i] != ')' ) {
-      if(line[i] == '+' || line[i] == '-' || isdigit(line[i])) {
-	 if(isNum) {
-	    //cerr << "const: " << constant << " deg: 0" << endl;
-	    polynomial[0] += constant;
-	 }
-	 constant = parseNum(line, i);
-	 isNum = true;
-      } else if(line[i] == 'n') {
-	 // figure out power then put it in 
-	 i++;
-	 int deg = 1;
-	 if(line[i] == '^') {
+      int deg = 1;
+      switch(line[i]) {
+	 case '+': case '-': case '0': case '1': case '2': case '3': case '4':
+	 case '5': case '6': case '7': case '8': case '9':
+	    if(isNum) {
+	       //cerr << "const: " << constant << " deg: 0" << endl;
+	       polynomial[0] += constant;
+	    }
+	    constant = parseNum(line, i);
+	    isNum = true;
+	    break;
+	 case 'n':
+	    // figure out power then put it in 
 	    i++;
-	    deg = parseNum(line, i);
-	 }
-	 if(deg > degree) {
-	    degree = deg;
-	 }
-	 if(!isNum) {
-	    constant = 1;
-	 }
-	 //cerr << "const: " << constant << " deg: " << deg << endl;
-	 polynomial[deg] += constant;
-	 deg = 0;
-	 constant = 0;
-	 isNum = false;
-      } else {
-	 i++;
+	    if(line[i] == '^') {
+	       i++;
+	       deg = parseNum(line, i);
+	    }
+	    if(deg > degree) {
+	       degree = deg;
+	    }
+	    if(!isNum) {
+	       constant = 1;
+	    }
+	    //cerr << "const: " << constant << " deg: " << deg << endl;
+	    polynomial[deg] += constant;
+	    deg = 0;
+	    constant = 0;
+	    isNum = false;
+	    break;
+	 default:
+	    i++;
+	    break;
       }
    }
    if(isNum) {
@@ -73,16 +75,15 @@ int parsing(const string &line, int &degree) {
       polynomial[0] += constant;
    }
    constant = 0;
-   i++;
-   i++;
-   return parseNum(line, i);
+   i += 2; // ")/"
+   return abs(parseNum(line, i));
 }
 
 int main() {
    int cases = 1;
    string line;
    // (n+7n^16-7-10n)/5
-   while(getline(cin, line) && line != ".") {
+   while(getline(cin, line) && line[0] != '.') {
       fill(polynomial, polynomial + MAX, 0);
       int degree = 0;
      
@@ -98,17 +99,18 @@ int main() {
       }
       */
       for(int n = 0; n <= degree; n++) {
-	 int sum = 0;
-	 int multiple = 1;
+	 long long sum = 0;
+	 long long multiple = 1;
 	 for(int i = 0; i <= degree; i++) {
 	    //  cerr << "multiple: " << multiple << " poly: " << polynomial[i]
 	    //	 << endl;
-	    sum += multiple * polynomial[i];
+	    sum += multiple * (long long)polynomial[i];
 	    sum %= den;
 	    multiple *= (n % den);
 	    multiple %= den;
 	 }
 //	 cerr << "sum: " << sum << " n: " << n << endl;
+	 sum = abs(sum);
 	 alwaysInt = alwaysInt && ((sum % den) == 0);
 	 if(!alwaysInt) break;
       }
