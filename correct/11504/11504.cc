@@ -33,6 +33,11 @@
 using namespace std;
 
 const int MAX_NODES = 100005;
+bool into[MAX_NODES]= {false};
+// To avoid runtime errors
+int C;
+stack<int> P;
+stack<int> S;
 
 struct Graph{
   int numNodes;
@@ -48,17 +53,19 @@ struct Graph{
   }
 };
 
+Graph G;
+Graph G_scc;
+
 int po[MAX_NODES],comp[MAX_NODES];
 
-void DFS(int v,const Graph& G,Graph& G_scc,int& C,
-	 stack<int>& P,stack<int>& S){
+void DFS(int v){
   po[v] = C++;
   
   S.push(v);  P.push(v);
   for(unsigned int i=0;i<G.adj[v].size();i++){
     int w = G.adj[v][i];
     if(po[w] == -1){
-      DFS(w,G,G_scc,C,P,S);
+      DFS(w);
     } else if(comp[w] == -1){
       while(!P.empty() && (po[P.top()] > po[w]))
 	P.pop();
@@ -77,15 +84,20 @@ void DFS(int v,const Graph& G,Graph& G_scc,int& C,
   }
 }
 
-int SCC(const Graph& G,Graph& G_scc){
+int SCC(){
   G_scc.clear();
-  int C=1;
-  stack<int> P,S;
+  C=1;
+  while(!P.empty()) {
+     P.pop();
+  }
+  while(!S.empty()) {
+     S.pop();
+  }
   fill(po,po+G.numNodes,-1);
   fill(comp,comp+G.numNodes,-1);
   for(int i=0;i<G.numNodes;i++)
-    if(po[i] == -1)
-      DFS(i,G,G_scc,C,P,S);
+     if(po[i] == -1)
+	DFS(i);
   
   // You do not need this if you are only interested in the number of
   //    strongly connected components.
@@ -100,11 +112,41 @@ int SCC(const Graph& G,Graph& G_scc){
   return G_scc.numNodes;
 }
 
-// Declare these as a global variable if MAX_NODES is large to
-//   avoid Runtime Error.
-Graph G,G_scc;
-
 int main(){
+   int cases;
+   cin >> cases;
+   int n, m, x, y, n_scc;
+   for(int i = 0; i < cases; i++) {
+      G.clear();
+      G_scc.clear();
+      // tiles are numbered 1 through n
+      cin >> n >> m;
+      G.numNodes = n + 1;
+      for(int j = 0; j < m; j++) {
+	 // the directed edge x -> y
+	 cin >> x >> y;
+	 G.add_edge(x, y);
+      }
+      n_scc = SCC();
+      //cerr << "number of G_scc nodes: " << G_scc.numNodes - 1 << endl;
+      //cerr << "number of scc: " << n_scc - 1 << endl;
+      // The G_scc is the graph that has the scc put as nodes
+      fill(into, into + MAX_NODES, false);
+      for(int i = 1; i < G_scc.numNodes; i++) {
+	 for(int j = 0; j < (int)G_scc.adj[i].size(); j++) {
+	    int num = G_scc.adj[i][j];
+	    if(num > 0 && num < G_scc.numNodes)
+	       into[num] = true;
+	 }
+      }
+      int number = 0;
+      for(int i = 1; i < G_scc.numNodes; i++) {
+	 if(!into[i])
+	    number++;
+      }
+      cout << number << endl;
+   }
+   /*
   int u,v,m,n;
   int n_scc;
   while(cin >> n >> m && (n || m)){
@@ -119,4 +161,5 @@ int main(){
     cout << "# of Strongly Connected Components: " << n_scc << endl;
   }
   return 0;
+   */
 }
