@@ -4,7 +4,16 @@
 #include <stack>
 using namespace std;
 
-int data[2][1000];
+Data data[1000];
+
+Class Data{
+  public:
+   Data() {}
+   friend istream& operator>>(istream& in, Data& a);
+   char type;
+   int num;
+};
+
 bool isStack(const int size) {
    stack<int> st;
    switch(mv) {
@@ -32,7 +41,7 @@ int main() {
          queue<int> que;
       priority_queue<int> pque;
       for(int i = 0; i < lines; i++) {
-	 cin >> mv >> num;
+	 cin >> 
       }
    }
    return 0;
