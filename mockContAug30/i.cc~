@@ -1,0 +1,11 @@
+#include <iostream>
+using namespace std;
+
+// check if wall is even in the way
+
+// otherwise I don't know
+
+int main() {
+
+   return 0;
+}

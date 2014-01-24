@@ -1,0 +1,7 @@
+ for(int i = 1; i <= n; i++) {
+      for(int j = 1; j <= n; j++) {
+	 if(table[i][j] == -1) continue;
+	 str[table[i][j]][i]++;
+	 str[table[i][j]][j + n]++;
+      }
+   }

@@ -1,0 +1,61 @@
+#include <iostream>
+#include <string>
+#include <cmath>
+#include <cstdlib>
+using namespace std;
+
+string names[] = {"Stan", "Ollie"};
+
+bool sim(int multiple, int little, int big, int person) {
+   int x, y;
+   x = big - little*multiple;
+   y = little;
+   little = min(x, y);
+   big = max(x, y);
+   int todo = big/little;
+   person++;
+   person %= 2;
+   for(int i = 1; i <= todo; i++) {
+      if(sim(i, little, big, person)) {
+	 x = big - little*i;
+	 y = little;
+	 big = max(x, y);
+	 little = min(x, y);
+      }
+   }
+   
+}
+
+void move(int &little, int &big, int &person) {
+   int x, y;
+   person++;
+   person %= 2;
+   int todo = big/little;
+   bool canWin;
+   for(int i = 1; i <= todo; i++) {
+      if(sim(i, little, big, person)) {
+	 
+      }
+   }
+   y = big - little*(big/little);
+   x = little;
+   little = min(x, y);
+   big = max(x, y);
+}
+
+int main() {
+
+   int x, y, little, big, person;
+   while(cin >> x >> y && (x != 0 || y != 0)) {
+      little = min(x, y);
+      big = max(x, y);
+      person = -1;
+      while(little != 0) {
+	 move(little, big, person);
+      }
+      cout << names[person] << " wins" << endl;
+   }
+   
+   
+   return 0;
+}
