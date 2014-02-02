@@ -186,6 +186,10 @@ int main() {
 	 game[9][1] = win[0][3];
 	 game[9][2] = win[0][4];
 	 
+	 for(int w = 0; w < 10; w++) {
+	    fill(countmul[w], countmul[w] + 2, 1);
+	    countmul[w][2] = 0;
+	 }
 	 for(int i = 0; i < 10; i++) {
 	    calcmul(i);
 	 }

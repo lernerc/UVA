@@ -1,0 +1,19 @@
+#include <iostream>
+using namespace std;
+
+void carloNumbers(const string &a, int &good, int &bad) {
+   good = bad = 0;
+   for(int i = 0; i < a.size(); i++) {
+      int j= i+1;
+      if(a[i] > a[j])
+	 bad++;
+      else
+	 good++;
+   }
+}
+
+
+int main() {
+
+   return 0;
+}
