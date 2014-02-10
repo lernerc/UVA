@@ -14,7 +14,7 @@ void doCase() {
    }
    sort(planets, planets + N);
    int left, right;
-   double half = (double)(planets[N-1] - planets[0])/2.0;
+   double half = (double)(planets[N-1] - planets[0])/2.0 + planets[0];
    for(int i = 0; i < N; i++) {
       if(planets[i] < half)
 	 left = planets[i] - planets[0];
