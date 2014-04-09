@@ -19,7 +19,7 @@ struct Edge {
 };
 
 struct Graph {
-   vector<vector<Edge>> nbr;
+   vector<vector<Edge> > nbr;
    int num_nodes;
    Graph(int n) : nbr(n), num_nodes(n) {}
    void add_edge_directed(int u, int v, int capacity, int flow, bool real, pair<int, int> p) {
@@ -73,7 +73,7 @@ int network_flow(Graph& G, int s, int t) {
 }
 
 int in_ind(int hour, int r, int c, int h, int n) {
-   return r*n + c + 1 + 2*hour*n*n+1;
+   return r*n + c + 1 + 2*hour*n*n;
 }
 
 int out_ind(int hour, int r, int c, int h, int n) {
@@ -106,8 +106,8 @@ int main() {
 	 for(int i = 0; i < n; i++)
 	    for(int j = 0; j < n; j++)
 	       if(height[i][j] > flood)
-		  add_edge_with_capacity_directed(G, in_ind(hour, r, c, h, n),
-						  out_ind(hour, r, c, h, n), 1);
+		  add_edge_with_capacity_directed(G, in_ind(hour, i, j, h, n),
+						  out_ind(hour, i, j, h, n), 1);
       }
           
       // in grid from out node to in node with possible cow moves
