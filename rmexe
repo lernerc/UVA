@@ -16,7 +16,7 @@ do
        	    exe=${i%.cc}
 	    if [ -f $exe ]
 	    then
-       	      git rm $exe
+       	      git rm -f $exe
      	    fi
 	    ;;
   	esac
